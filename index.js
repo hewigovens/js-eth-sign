@@ -15,6 +15,7 @@ connectButton.addEventListener('click', function () {
 function connect () {
   if (typeof ethereum !== 'undefined') {
     ethereum.enable()
+    .then(console.log)
     .catch(console.error)
   }
 }
