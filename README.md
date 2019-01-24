@@ -1,5 +1,5 @@
 # JS Ethereum Signature Example
 
-Simplest possible signature examples, for use with [MetaMask](https://metamask.io).
+Simplest possible signature examples, for use with [MetaMask](https://metamask.io) and [Trust](https://trustwallet.com)
 
-[Live Demo Here](https://danfinlay.github.io/js-eth-personal-sign-examples/)
+[Live Demo Here](https://js-eth-sign.surge.sh)
