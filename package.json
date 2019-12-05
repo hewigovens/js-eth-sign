@@ -22,7 +22,8 @@
     "eth-sig-util": "^2.3.0",
     "ethereumjs-util": "^5.1.1",
     "ethjs": "^0.3.0",
-    "vconsole": "^3.2.2"
+    "vconsole": "^3.2.2",
+    "web3": "^1.2.4"
   },
   "devDependencies": {
     "babel-runtime": "^6.26.0",

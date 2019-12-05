@@ -4,6 +4,9 @@ var Eth = require('ethjs')
 var VConsole = require('vconsole')
 window.vConsole = new VConsole()
 window.Eth = Eth
+var Web3 = require('web3')
+window.web3 = new Web3()
+window.web3.setProvider(window.ethereum)
 console.log('new V2')
 var fs = require('fs')
 var terms = fs.readFileSync(__dirname + '/terms.txt').toString()
@@ -11,6 +14,10 @@ var terms = fs.readFileSync(__dirname + '/terms.txt').toString()
 connectButton.addEventListener('click', function () {
   connect()
 })
+
+function account() {
+  return web3.currentProvider.send({method: 'eth_accounts'}).result[0]
+}
 
 function connect () {
   if (typeof ethereum !== 'undefined') {
@@ -23,9 +30,9 @@ function connect () {
 ethSignButton.addEventListener('click', function(event) {
   event.preventDefault()
   var msg = '0x879a053d4800c6354e76c7985a865d2922c82fb5b3f4577b2fe08b998954f2e0'
-  var from = web3.eth.accounts[0]
+  var from = account()
   if (!from) return connect()
-  web3.eth.sign(from, msg, function (err, result) {
+  web3.eth.sign(msg, from, function (err, result) {
     if (err) return console.error(err)
     console.log('SIGNED:' + result)
   })
@@ -37,7 +44,7 @@ personalSignButton.addEventListener('click', function(event) {
   var msg = ethUtil.bufferToHex(new Buffer(text, 'utf8'))
   // var msg = '0x1' // hexEncode(text)
   console.log(msg)
-  var from = web3.eth.accounts[0]
+  var from = account()
   if (!from) return connect()
 
   /*  web3.personal.sign not yet implemented!!!
@@ -110,7 +117,7 @@ personalRecoverTest.addEventListener('click', function(event) {
   var msg = ethUtil.bufferToHex(new Buffer(text, 'utf8'))
   // var msg = '0x1' // hexEncode(text)
   console.log(msg)
-  var from = web3.eth.accounts[0]
+  var from = account()
   if (!from) return connect()
 
   /*  web3.personal.sign not yet implemented!!!
@@ -168,7 +175,7 @@ ethjsPersonalSignButton.addEventListener('click', function(event) {
   event.preventDefault()
   var text = terms
   var msg = ethUtil.bufferToHex(new Buffer(text, 'utf8'))
-  var from = web3.eth.accounts[0]
+  var from = account()
   if (!from) return connect()
 
   console.log('CLICKED, SENDING PERSONAL SIGN REQ')
@@ -212,7 +219,7 @@ signTypedDataButton.addEventListener('click', function(event) {
     }
   ]
 
-  var from = web3.eth.accounts[0]
+  var from = account()
   if (!from) return connect()
 
   /*  web3.eth.signTypedData not yet implemented!!!
@@ -262,7 +269,7 @@ signTypedDataV3Button.addEventListener('click', function(event) {
     jsonrpc: "2.0"
   }, function (err, result) {
     const netId = result.result
-    const msgParams = JSON.stringify({types:{
+    const msgParams = {types:{
       EIP712Domain:[
         {name:"name",type:"string"},
         {name:"version",type:"string"},
@@ -285,11 +292,9 @@ signTypedDataV3Button.addEventListener('click', function(event) {
       from:{name:"Cow",wallet:"0xCD2a3d9F938E13CD947Ec05AbC7FE734Df8DD826"},
       to:{name:"Bob",wallet:"0xbBbBBBBbbBBBbbbBbbBbbbbBBbBbbbbBbBbbBBbB"},
       contents:"Hello, Bob!"}
-    })
+    }
   
-      
-  
-    var from = web3.eth.accounts[0]
+    var from = account()
   
     console.log('CLICKED, SENDING PERSONAL SIGN REQ', 'from', from, msgParams)
     var params = [from, msgParams]
@@ -325,7 +330,7 @@ signTypedDataV3Button.addEventListener('click', function(event) {
 signTypedDataV4Button.addEventListener('click', function(event) {
   event.preventDefault()
 
-  const msgParams = JSON.stringify({
+  const msgParams = {
     domain: {
       chainId: 1,
       name: 'Ether Mail',
@@ -368,9 +373,9 @@ signTypedDataV4Button.addEventListener('click', function(event) {
       ],
       Person: [{ name: 'name', type: 'string' }, { name: 'wallets', type: 'address[]' }]
     }
-  });
+  };
 
-  var from = web3.eth.accounts[0]
+  var from = account()
 
   var params = [from, msgParams]
   var method = 'eth_signTypedData_v4'
@@ -415,7 +420,7 @@ ethjsSignTypedDataButton.addEventListener('click', function(event) {
     }
   ]
 
-  var from = web3.eth.accounts[0]
+  var from = account()
   if (!from) return connect()
 
   console.log('CLICKED, SENDING PERSONAL SIGN REQ')
