@@ -313,7 +313,7 @@ signTypedDataV3Button.addEventListener('click', function(event) {
       if (result.error) return console.error('ERROR', result)
       console.log('TYPED SIGNED:' + JSON.stringify(result.result))
   
-      const recovered = sigUtil.recoverTypedSignature({ data: JSON.parse(msgParams), sig: result.result })
+      const recovered = sigUtil.recoverTypedSignature({ data: msgParams, sig: result.result })
   
       if (ethUtil.toChecksumAddress(recovered) === ethUtil.toChecksumAddress(from)) {
         alert('Successfully ecRecovered signer as ' + from)
@@ -392,7 +392,7 @@ signTypedDataV4Button.addEventListener('click', function(event) {
     if (result.error) return console.error('ERROR', result)
     console.log('TYPED SIGNED:' + JSON.stringify(result.result))
 
-    const recovered = sigUtil.recoverTypedSignature_v4({ data: JSON.parse(msgParams), sig: result.result })
+    const recovered = sigUtil.recoverTypedSignature_v4({ data: msgParams, sig: result.result })
 
     if (ethUtil.toChecksumAddress(recovered) === ethUtil.toChecksumAddress(from)) {
       alert('Successfully recovered signer as ' + from)
