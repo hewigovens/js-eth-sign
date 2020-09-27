@@ -25,7 +25,7 @@ ethSignButton.addEventListener('click', function(event) {
   var msgHash = ethUtil.keccak256('An amazing message, for use with MetaMask!')
   var from = web3.eth.accounts[0]
   if (!from) return connect()
-  web3.eth.sign(from, msgHash, function (err, result) {
+  web3.eth.sign(from, '0x' + msgHash.toString('hex'), function (err, result) {
     if (err) return console.error(err)
     console.log('SIGNED:' + result)
   })
